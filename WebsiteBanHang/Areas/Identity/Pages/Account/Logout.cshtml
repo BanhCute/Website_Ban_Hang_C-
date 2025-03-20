@@ -1,0 +1,49 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Đăng xuất";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-5 text-center">
+                    @{
+                        if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <div class="mb-4">
+                                <div class="display-1 text-primary mb-4">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <h2 class="fw-bold mb-3">Bạn muốn đăng xuất?</h2>
+                                <p class="text-muted mb-4">Cảm ơn bạn đã ghé thăm Banh Cute</p>
+                                <form method="post">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5 py-3 me-2">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                                    </button>
+                                    <a href="/" class="btn btn-outline-secondary btn-lg px-5 py-3">
+                                        <i class="fas fa-home me-2"></i>Về trang chủ
+                                    </a>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-4">
+                                <div class="display-1 text-primary mb-4">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h2 class="fw-bold mb-3">Đăng xuất thành công!</h2>
+                                <p class="text-muted mb-4">Hẹn gặp lại bạn tại Banh Cute</p>
+                                <a href="/" class="btn btn-primary btn-lg px-5 py-3">
+                                    <i class="fas fa-home me-2"></i>Về trang chủ
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

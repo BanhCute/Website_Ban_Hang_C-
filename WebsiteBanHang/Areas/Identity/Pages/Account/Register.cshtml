@@ -1,0 +1,186 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<style>
+    /* Tùy chỉnh style cho input date */
+    input[type="date"] {
+        position: relative;
+        cursor: pointer;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .form-floating input[type="date"]:focus,
+    .form-floating input[type="date"]:not(:placeholder-shown) {
+        padding-top: 1.625rem;
+        padding-bottom: 0.625rem;
+    }
+
+    .form-floating input[type="date"]:focus ~ label,
+    .form-floating input[type="date"]:not(:placeholder-shown) ~ label {
+        opacity: 0.65;
+        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-5 d-none d-md-block position-relative">
+                        <div class="h-100" style="background: url('/images/gift-box.jpeg') center/cover no-repeat; filter: brightness(0.9);"></div>
+                        <div class="position-absolute top-0 start-0 w-100 h-100" 
+                             style="background: linear-gradient(135deg, rgba(0, 102, 204, 0.7), rgba(0, 153, 255, 0.5));">
+                            <div class="d-flex flex-column justify-content-center h-100 p-5 text-white">
+                                <div class="text-center">
+                                    <h2 class="fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                                        Ưu đãi hấp dẫn!
+                                    </h2>
+                                    <p class="mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                        Đăng ký thành viên để nhận ngay ưu đãi 20% cho đơn hàng đầu tiên.
+                                    </p>
+                                    <div class="d-flex justify-content-center gap-3">
+                                        <a href="#" class="text-white" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+                                            <i class="fab fa-facebook fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="text-white" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+                                            <i class="fab fa-instagram fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="text-white" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+                                            <i class="fab fa-tiktok fa-2x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <h1 class="fw-bold text-primary mb-2">Đăng ký tài khoản</h1>
+                                <p class="text-muted">Tạo tài khoản để mua sắm dễ dàng hơn</p>
+                            </div>
+                            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" />
+                                    <label asp-for="Input.Email">
+                                        <i class="fas fa-envelope me-2"></i>Email
+                                    </label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.FullName" class="form-control" placeholder="Họ và tên" />
+                                    <label asp-for="Input.FullName">
+                                        <i class="fas fa-user me-2"></i>Họ và tên
+                                    </label>
+                                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Address" class="form-control" placeholder="Địa chỉ" />
+                                    <label asp-for="Input.Address">
+                                        <i class="fas fa-map-marker-alt me-2"></i>Địa chỉ
+                                    </label>
+                                    <span asp-validation-for="Input.Address" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Age" class="form-control" placeholder="Tuổi" />
+                                    <label asp-for="Input.Age">
+                                        <i class="fas fa-birthday-cake me-2"></i>Tuổi
+                                    </label>
+                                    <span asp-validation-for="Input.Age" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Birthday" class="form-control" type="date" 
+                                           min="1950-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <label asp-for="Input.Birthday">
+                                        <i class="fas fa-calendar-alt me-2"></i>Ngày sinh
+                                    </label>
+                                    <span asp-validation-for="Input.Birthday" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <select asp-for="Input.Role" asp-items="Model.Input.RoleList" class="form-select">
+                                        <option disabled selected>-- Chọn vai trò --</option>
+                                    </select>
+                                    <label asp-for="Input.Role">
+                                        <i class="fas fa-user-tag me-2"></i>Vai trò
+                                    </label>
+                                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Input.Password" class="form-control" placeholder="Mật khẩu" />
+                                    <label asp-for="Input.Password">
+                                        <i class="fas fa-lock me-2"></i>Mật khẩu
+                                    </label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-floating mb-4">
+                                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Xác nhận mật khẩu" />
+                                    <label asp-for="Input.ConfirmPassword">
+                                        <i class="fas fa-lock me-2"></i>Xác nhận mật khẩu
+                                    </label>
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 py-3 mb-4">
+                                    <i class="fas fa-user-plus me-2"></i>Đăng ký
+                                </button>
+
+                                <div class="text-center">
+                                    <p class="mb-0">Đã có tài khoản? 
+                                        <a asp-page="./Login" class="text-primary text-decoration-none fw-bold">Đăng nhập</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var defaultDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+            
+            var birthdayInput = document.getElementById('Input_Birthday');
+            if (birthdayInput) {
+                // Đặt giá trị mặc định nếu chưa có giá trị
+                if (!birthdayInput.value) {
+                    birthdayInput.value = defaultDate.toISOString().split('T')[0];
+                }
+                
+                birthdayInput.max = today.toISOString().split('T')[0];
+                birthdayInput.min = "1950-01-01";
+                
+                birthdayInput.addEventListener('change', function() {
+                    var selectedDate = new Date(this.value);
+                    if (selectedDate > today) {
+                        alert('Ngày sinh không thể là ngày trong tương lai');
+                        this.value = defaultDate.toISOString().split('T')[0];
+                    }
+                });
+            }
+        });
+    </script>
+}

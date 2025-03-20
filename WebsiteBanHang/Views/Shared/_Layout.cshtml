@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Banh Cute</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #0099ff;
+        }
+        
+        .navbar { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; 
+        }
+        .nav-link:hover { 
+            transform: translateY(-2px); 
+            transition: all 0.3s;
+            color: #fff !important;
+        }
+        .navbar-brand:hover { 
+            transform: scale(1.05); 
+            transition: all 0.3s;
+            color: #fff !important;
+        }
+        .footer { 
+            background: linear-gradient(135deg, #f8f9fa, #e6f3ff) !important; 
+        }
+        .social-icon { 
+            font-size: 1.5rem; 
+            margin: 0 10px; 
+            color: var(--primary-color); 
+        }
+        .social-icon:hover { 
+            color: var(--secondary-color); 
+            transform: scale(1.2); 
+            transition: all 0.3s; 
+        }
+        .btn-primary {
+            background: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        .btn-primary:hover {
+            background: var(--secondary-color) !important;
+            border-color: var(--secondary-color) !important;
+        }
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        .dropdown-item:hover {
+            background-color: #e6f3ff !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark border-bottom box-shadow">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    <span class="fw-bold">Banh Cute</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Product" asp-action="Index">
+                                <i class="fas fa-list-ul me-1"></i>Sản phẩm
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Category" asp-action="Index">
+                                <i class="fas fa-th-list me-1"></i>Danh mục
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-gift me-1"></i>Khuyến mãi
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-star me-1"></i>Đánh giá
+                            </a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted py-5 mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="fas fa-shopping-cart me-2"></i>Banh Cute
+                    </h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường ABC, Quận XYZ</p>
+                    <p><i class="fas fa-phone-alt me-2"></i>0123.456.789</p>
+                    <p><i class="fas fa-envelope me-2"></i>contact@banhcute.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3">Thông tin</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-muted">
+                            <i class="fas fa-angle-right me-2"></i>Về chúng tôi
+                        </a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">
+                            <i class="fas fa-angle-right me-2"></i>Chính sách đổi trả
+                        </a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">
+                            <i class="fas fa-angle-right me-2"></i>Điều khoản dịch vụ
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3">Theo dõi chúng tôi</h5>
+                    <div class="mb-3">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <p class="mb-0">&copy; @DateTime.Now.Year - Banh Cute</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                title: 'Thành công!',
+                text: '@Html.Raw(TempData["SuccessMessage"])',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false,
+                position: 'top-end',
+                toast: true,
+                background: '#4CAF50',
+                color: '#fff'
+            });
+        </script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                title: 'Lỗi!',
+                text: '@Html.Raw(TempData["ErrorMessage"])',
+                icon: 'error',
+                timer: 3000,
+                showConfirmButton: false,
+                position: 'top-end',
+                toast: true,
+                background: '#f44336',
+                color: '#fff'
+            });
+        </script>
+    }
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

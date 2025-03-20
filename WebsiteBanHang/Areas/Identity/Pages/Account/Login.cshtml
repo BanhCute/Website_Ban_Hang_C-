@@ -1,0 +1,90 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-5 d-none d-md-block position-relative">
+                        <div class="h-100" style="background: url('/images/shopping-cart.webp') center/cover no-repeat; filter: brightness(0.9);"></div>
+                        <div class="position-absolute top-0 start-0 w-100 h-100" 
+                             style="background: linear-gradient(135deg, rgba(0, 102, 204, 0.7), rgba(0, 153, 255, 0.5));">
+                            <div class="d-flex flex-column justify-content-center h-100 p-5 text-white">
+                                <div class="text-center">
+                                    <h2 class="fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                                        Chào mừng bạn!
+                                    </h2>
+                                    <p class="mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                        Đăng nhập để mua sắm và nhận nhiều ưu đãi hấp dẫn từ Banh Cute.
+                                    </p>
+                                    <div class="d-flex justify-content-center gap-3">
+                                        <a href="#" class="text-white" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+                                            <i class="fab fa-facebook fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="text-white" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+                                            <i class="fab fa-instagram fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="text-white" style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+                                            <i class="fab fa-tiktok fa-2x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-5">
+                                <h1 class="fw-bold text-primary mb-2">Đăng nhập</h1>
+                                <p class="text-muted">Vui lòng đăng nhập để tiếp tục mua sắm</p>
+                            </div>
+                            <form id="account" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
+                                
+                                <div class="form-floating mb-4">
+                                    <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" />
+                                    <label asp-for="Input.Email"><i class="fas fa-envelope me-2"></i>Email</label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-floating mb-4">
+                                    <input asp-for="Input.Password" class="form-control" placeholder="Mật khẩu" />
+                                    <label asp-for="Input.Password"><i class="fas fa-lock me-2"></i>Mật khẩu</label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-4">
+                                    <div class="form-check">
+                                        <input asp-for="Input.RememberMe" class="form-check-input" />
+                                        <label asp-for="Input.RememberMe" class="form-check-label">Ghi nhớ đăng nhập</label>
+                                    </div>
+                                    <a asp-page="./ForgotPassword" class="text-primary text-decoration-none">Quên mật khẩu?</a>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 py-3 mb-4">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+                                </button>
+
+                                <div class="text-center">
+                                    <p class="mb-0">Chưa có tài khoản? 
+                                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" 
+                                           class="text-primary text-decoration-none fw-bold">Đăng ký ngay</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
