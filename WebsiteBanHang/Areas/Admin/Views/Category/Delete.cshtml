@@ -1,0 +1,32 @@
+@model WebsiteBanHang.Models.Category
+
+<div class="container mt-4">
+    <h2>Xác nhận xóa danh mục</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="text-danger">Bạn có chắc chắn muốn xóa danh mục này?</h5>
+            
+            <dl class="row mt-3">
+                <dt class="col-sm-2">ID:</dt>
+                <dd class="col-sm-10">@Model.Id</dd>
+
+                <dt class="col-sm-2">Tên danh mục:</dt>
+                <dd class="col-sm-10">@Model.Name</dd>
+
+                <dt class="col-sm-2">Mô tả:</dt>
+                <dd class="col-sm-10">@Model.Description</dd>
+            </dl>
+
+            <form asp-area="Admin" asp-controller="Category" asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash me-1"></i>Xác nhận xóa
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times me-1"></i>Hủy
+                </a>
+            </form>
+        </div>
+    </div>
+</div> 

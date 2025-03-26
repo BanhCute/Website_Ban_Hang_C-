@@ -1,0 +1,107 @@
+@model Order
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-body text-center p-5">
+            <div class="mb-4">
+                <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+            </div>
+            <h2 class="mb-3">Đặt hàng thành công!</h2>
+            <p class="text-muted mb-4">Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn trong thời gian sớm nhất.</p>
+            
+            <div class="order-info bg-light p-4 rounded mb-4">
+                <h5 class="mb-3">Thông tin đơn hàng #@Model.Id</h5>
+                <div class="row">
+                    <div class="col-md-6 text-start">
+                        <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                        <p><strong>Trạng thái:</strong> <span class="badge bg-primary">@Model.StatusString</span></p>
+                        <p><strong>Địa chỉ giao hàng:</strong> @Model.ShippingAddress</p>
+                        <p><strong>Số điện thoại:</strong> @Model.PhoneNumber</p>
+                    </div>
+                    <div class="col-md-6 text-start">
+                        <p><strong>Ghi chú:</strong> @(string.IsNullOrEmpty(Model.Note) ? "Không có" : Model.Note)</p>
+                        <p><strong>Tổng tiền:</strong> <span class="text-primary fw-bold">@Model.TotalAmount.ToString("N0")đ</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-details">
+                <h5 class="mb-3">Chi tiết đơn hàng</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <tr>
+                                <td>@item.Product.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("N0")đ</td>
+                                <td>@((item.Quantity * item.Price).ToString("N0"))đ</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <a href="/Product" class="btn btn-primary">
+                    <i class="fas fa-shopping-bag me-2"></i>Tiếp tục mua sắm
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .order-info {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 1rem;
+    }
+
+    .badge {
+        padding: 0.5em 1em;
+    }
+
+    /* Animation cho icon check */
+    .fa-check-circle {
+        animation: scaleIn 0.5s ease-in-out;
+    }
+
+    @@keyframes scaleIn {
+        from {
+            transform: scale(0);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .table-responsive {
+            font-size: 0.9rem;
+        }
+    }
+</style> 

@@ -13,36 +13,20 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\160880ab-ebc9-4b89-9b00-20af819e94d7_CofeeAndCookie.jpg",
-      "PackagePath": "staticwebassets\\images\\160880ab-ebc9-4b89-9b00-20af819e94d7_CofeeAndCookie.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\2927a0b6-1b3e-4c87-b219-0ae76f44703e_tải xuống (6).jpg",
-      "PackagePath": "staticwebassets\\images\\2927a0b6-1b3e-4c87-b219-0ae76f44703e_tải xuống (6).jpg"
-    },
-    {
-      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\362f610b-42fc-40a0-8859-4de6ce596d73_Avengers.jpg",
-      "PackagePath": "staticwebassets\\images\\362f610b-42fc-40a0-8859-4de6ce596d73_Avengers.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\387f72ce-6cec-4757-a544-2363e17e7be5_426438811_1879770425828345_8880290153666082254_n.jpg",
-      "PackagePath": "staticwebassets\\images\\387f72ce-6cec-4757-a544-2363e17e7be5_426438811_1879770425828345_8880290153666082254_n.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\9cfe5ba0-b912-4cd7-9f85-73e502e5d6fd_gift-box.jpeg",
-      "PackagePath": "staticwebassets\\images\\9cfe5ba0-b912-4cd7-9f85-73e502e5d6fd_gift-box.jpeg"
-    },
-    {
-      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\f7d1656a-a87a-4df2-a48b-a34db6f4040f_.jpg",
-      "PackagePath": "staticwebassets\\images\\f7d1656a-a87a-4df2-a48b-a34db6f4040f_.jpg"
-    },
-    {
       "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\gift-box.jpeg",
       "PackagePath": "staticwebassets\\images\\gift-box.jpeg"
     },
     {
+      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\home-img.png",
+      "PackagePath": "staticwebassets\\images\\home-img.png"
+    },
+    {
       "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\products\\3a364715-270b-4653-8821-98c96ab798cf.jpeg",
       "PackagePath": "staticwebassets\\images\\products\\3a364715-270b-4653-8821-98c96ab798cf.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\products\\68593653-2b0e-4fa7-893a-2c53b65f5598.webp",
+      "PackagePath": "staticwebassets\\images\\products\\68593653-2b0e-4fa7-893a-2c53b65f5598.webp"
     },
     {
       "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\products\\6b001d2c-0b49-447a-8d36-42620fc31141.jpeg",
@@ -55,6 +39,10 @@
     {
       "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\products\\b454aa7f-6b21-4f59-a77f-4e49d7368c3f.png",
       "PackagePath": "staticwebassets\\images\\products\\b454aa7f-6b21-4f59-a77f-4e49d7368c3f.png"
+    },
+    {
+      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\products\\cf58b084-d876-4032-b92f-ac5636b22053.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\cf58b084-d876-4032-b92f-ac5636b22053.jpg"
     },
     {
       "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\products\\gift-box.jpeg",

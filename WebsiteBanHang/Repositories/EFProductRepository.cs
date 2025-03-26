@@ -63,5 +63,10 @@ namespace WebsiteBanHang.Repositories
         {
             _context.Entry(product).State = EntityState.Detached;
         }
+
+        public Product GetProductById(int id)
+        {
+            return _context.Products.FirstOrDefault(p => p.Id == id);
+        }
     }
 }

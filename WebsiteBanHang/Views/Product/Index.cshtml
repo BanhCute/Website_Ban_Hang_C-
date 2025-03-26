@@ -1,18 +1,19 @@
 ﻿@model IEnumerable<WebsiteBanHang.Models.Product>
 
+@{
+    Layout = "_Layout"; // Đảm bảo tên file layout đúng
+}
+
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Danh sách sản phẩm</h2>
-        <a asp-action="Add" class="btn btn-primary">
-            <i class="fas fa-plus me-2"></i>Thêm sản phẩm mới
-        </a>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var item in Model)
         {
             <div class="col">
-                <div class="card h-100 product-card shadow-sm">
+                <div class="card h-100 product-card shadow-sm border-0">
                     <!-- Ảnh sản phẩm -->
                     <div class="product-image-container">
                         @if (!string.IsNullOrEmpty(item.ImageUrl))
@@ -27,13 +28,9 @@
                             <a asp-action="Display" asp-route-id="@item.Id" class="btn btn-light btn-sm">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-light btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-light btn-sm"
-                               onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <button class="btn btn-light btn-sm add-to-cart-btn" data-product-id="@item.Id">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -52,6 +49,34 @@
             </div>
         }
     </div>
+
+    <!-- Phân trang -->
+    <div class="mt-4">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">Trước</a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">Sau</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <style>
@@ -59,28 +84,29 @@
         transition: transform 0.2s, box-shadow 0.2s;
         border: none;
         overflow: hidden;
+        border-radius: 10px; /* Bo tròn góc */
     }
 
     .product-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Tăng độ bóng khi hover */
     }
 
     .product-image-container {
         position: relative;
         overflow: hidden;
-        height: 200px;
+        height: 200px; /* Chiều cao cố định cho ảnh */
     }
 
     .product-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: cover; /* Đảm bảo ảnh không bị méo */
         transition: transform 0.3s;
     }
 
     .product-card:hover .product-image {
-        transform: scale(1.1);
+        transform: scale(1.1); /* Phóng to ảnh khi hover */
     }
 
     .product-overlay {
@@ -89,7 +115,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -99,13 +125,13 @@
     }
 
     .product-card:hover .product-overlay {
-        opacity: 1;
+        opacity: 1; /* Hiện overlay khi hover */
     }
 
     .product-overlay .btn {
         width: 35px;
         height: 35px;
-        border-radius: 50%;
+        border-radius: 50%; /* Hình tròn cho nút */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -114,7 +140,7 @@
     }
 
     .product-overlay .btn:hover {
-        transform: scale(1.1);
+        transform: scale(1.1); /* Phóng to nút khi hover */
     }
 
     .product-title {
@@ -156,12 +182,11 @@
 
     .product-overlay .btn:nth-child(1) { animation-delay: 0.1s; }
     .product-overlay .btn:nth-child(2) { animation-delay: 0.2s; }
-    .product-overlay .btn:nth-child(3) { animation-delay: 0.3s; }
 
     /* Thêm responsive cho mobile */
     @@media (max-width: 768px) {
         .product-image-container {
-            height: 150px;
+            height: 150px; /* Chiều cao cho ảnh trên mobile */
         }
 
         .product-title {
@@ -175,3 +200,39 @@
         }
     }
 </style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.add-to-cart-btn').on('click', function() {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    type: 'POST',
+                    data: { 
+                        productId: productId, 
+                        quantity: 1 
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#cart-count').text(response.cartCount);
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Đã thêm sản phẩm vào giỏ hàng',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

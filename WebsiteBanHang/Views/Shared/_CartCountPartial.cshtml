@@ -1,0 +1,16 @@
+@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore
+@using WebsiteBanHang.Data
+@using WebsiteBanHang.Enums
+@inject ApplicationDbContext _context
+@{
+    var count = 0;
+    if (User.Identity.IsAuthenticated)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        count = await _context.OrderDetails
+            .Where(od => od.Order.UserId == userId && od.Order.Status == (int)OrderStatus.Pending)
+            .SumAsync(od => od.Quantity);
+    }
+}
+@count

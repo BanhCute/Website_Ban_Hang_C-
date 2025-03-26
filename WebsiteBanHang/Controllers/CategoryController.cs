@@ -3,9 +3,12 @@ using WebsiteBanHang.Data;
 using WebsiteBanHang.Interfaces;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebsiteBanHang.Controllers
+namespace WebsiteBanHang.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;

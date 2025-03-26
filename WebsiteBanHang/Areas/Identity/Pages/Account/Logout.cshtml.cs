@@ -45,7 +45,7 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account
             }
             else
             {
-                return RedirectToPage("/Index");
+                return LocalRedirect("~/");
             }
         }
     }

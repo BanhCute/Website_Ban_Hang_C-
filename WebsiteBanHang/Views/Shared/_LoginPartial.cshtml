@@ -7,14 +7,6 @@
 <ul class="navbar-nav align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item me-3">
-            <a class="nav-link position-relative" href="#">
-                <i class="fas fa-shopping-cart fa-lg"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    0
-                </span>
-            </a>
-        </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
                 <i class="fas fa-user-circle me-1"></i>
@@ -42,6 +34,7 @@
     }
     else
     {
+        
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">
                 <i class="fas fa-user-plus me-1"></i>Đăng ký
@@ -50,6 +43,14 @@
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
                 <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
+            </a>
+        </li>
+    }
+    @if (User.IsInRole(SD.Role_Admin))
+    {
+        <li>
+            <a class="dropdown-item py-2" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <i class="fas fa-cogs me-2 text-primary"></i>Trang quản trị
             </a>
         </li>
     }

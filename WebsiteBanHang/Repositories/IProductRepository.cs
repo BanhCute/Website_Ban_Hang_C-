@@ -10,5 +10,6 @@ namespace WebsiteBanHang.Repositories
         Task UpdateAsync(Product product);
         Task DeleteAsync(int id);
         void Detach(Product existingProduct);
+        Product GetProductById(int id);
     }
 }
