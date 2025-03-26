@@ -27,23 +27,50 @@ namespace WebsiteBanHang.Controllers
         }
 
         // Chỉ giữ lại các action để xem sản phẩm
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Index(
+            string searchString, 
+            int? category, 
+            int page = 1, 
+            int pageSize = 2)
         {
-            // Lấy tổng số sản phẩm
-            var totalItems = await _context.Products.CountAsync(); // Đếm tổng số sản phẩm
+            // Lấy danh sách categories để hiển thị dropdown
+            var categories = await _context.Categories.ToListAsync();
+            ViewBag.Categories = categories;
 
-            // Lấy danh sách sản phẩm với phân trang
-            var products = await _context.Products
-                .OrderBy(p => p.Id) // Sắp xếp theo Id
-                .Skip((page - 1) * pageSize) // Bỏ qua số sản phẩm đã hiển thị
-                .Take(pageSize) // Lấy số sản phẩm theo pageSize
-                .ToListAsync(); // Chờ để lấy danh sách sản phẩm
+            // Truy vấn sản phẩm
+            var query = _context.Products
+                .Include(p => p.Category)
+                .AsQueryable();
 
-            ViewBag.CurrentPage = page; // Lưu trang hiện tại
-            ViewBag.PageSize = pageSize; // Lưu kích thước trang
-            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize); // Tính tổng số trang
+            // Lọc theo từ khóa
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(p => 
+                    p.Name.Contains(searchString) || 
+                    p.Description.Contains(searchString)
+                );
+                ViewBag.CurrentFilter = searchString;
+            }
 
-            return View(products); // Trả về danh sách sản phẩm cho view
+            // Lọc theo danh mục
+            if (category.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == category.Value);
+                ViewBag.CurrentCategory = category.Value;
+            }
+
+            // Phân trang
+            var totalItems = await query.CountAsync();
+            var products = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Tính tổng số trang
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            return View(products);
         }
 
         public async Task<IActionResult> Display(int id)

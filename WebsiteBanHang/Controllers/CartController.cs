@@ -31,65 +31,65 @@ namespace WebsiteBanHang.Controllers
 
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 Console.WriteLine($"User ID: {userId}");
 
                 // Tìm hoặc tạo đơn hàng chưa thanh toán
-                var order = await _context.Orders
-                    .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == (int)OrderStatus.Pending);
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == (int)OrderStatus.Pending);
 
-                if (order == null)
+            if (order == null)
+            {
+                order = new Order
                 {
-                    order = new Order
-                    {
-                        UserId = userId,
-                        OrderDate = DateTime.Now,
-                        Status = (int)OrderStatus.Pending,
+                    UserId = userId,
+                    OrderDate = DateTime.Now,
+                    Status = (int)OrderStatus.Pending,
                         ShippingAddress = "Chưa cập nhật",
                         PhoneNumber = "Chưa cập nhật",
-                        Note = "Đơn hàng mới"
-                    };
-                    _context.Orders.Add(order);
-                    await _context.SaveChangesAsync();
-                }
+                    Note = "Đơn hàng mới"
+                };
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+            }
 
                 // Kiểm tra sản phẩm có tồn tại không
-                var product = await _context.Products.FindAsync(productId);
-                if (product == null)
-                {
-                    return Json(new { success = false, message = "Sản phẩm không tồn tại" });
-                }
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return Json(new { success = false, message = "Sản phẩm không tồn tại" });
+            }
 
                 // Tìm chi tiết đơn hàng
                 var orderDetail = await _context.OrderDetails
                     .FirstOrDefaultAsync(od => od.OrderId == order.Id && od.ProductId == productId);
 
-                if (orderDetail != null)
-                {
+            if (orderDetail != null)
+            {
                     // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
-                    orderDetail.Quantity += quantity;
-                }
-                else
-                {
+                orderDetail.Quantity += quantity;
+            }
+            else
+            {
                     // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
-                    orderDetail = new OrderDetail
-                    {
-                        OrderId = order.Id,
-                        ProductId = productId,
-                        Quantity = quantity,
-                        Price = product.Price
-                    };
-                    _context.OrderDetails.Add(orderDetail);
-                }
+                orderDetail = new OrderDetail
+                {
+                    OrderId = order.Id,
+                    ProductId = productId,
+                    Quantity = quantity,
+                    Price = product.Price
+                };
+                _context.OrderDetails.Add(orderDetail);
+            }
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
                 // Đếm tổng số lượng sản phẩm trong giỏ hàng
-                var cartCount = await _context.OrderDetails
-                    .Where(od => od.Order.UserId == userId && od.Order.Status == (int)OrderStatus.Pending)
-                    .SumAsync(od => od.Quantity);
+            var cartCount = await _context.OrderDetails
+                .Where(od => od.Order.UserId == userId && od.Order.Status == (int)OrderStatus.Pending)
+                .SumAsync(od => od.Quantity);
 
-                return Json(new { success = true, cartCount = cartCount });
+            return Json(new { success = true, cartCount = cartCount });
             }
             catch (Exception ex)
             {
@@ -360,4 +360,4 @@ namespace WebsiteBanHang.Controllers
             return View("OrderCompleted", order);
         }
     }
-}
+} 

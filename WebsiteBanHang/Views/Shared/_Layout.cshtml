@@ -79,7 +79,7 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-shopping-cart me-2"></i>
-                    <span class="fw-bold">Banh Cute</span>
+                    <span class="fw-bold">Shop Lưu Niệm Banh Cute</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -97,8 +97,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-info-circle me-1"></i>Giới thiệu
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">
+                                <i class="fas fa-list-ul me-1"></i>Giới thiệu
                             </a>
                         </li>
                         @if (SignInManager.IsSignedIn(User))
@@ -138,9 +138,9 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <h5 class="fw-bold mb-3 text-primary">
-                        <i class="fas fa-shopping-cart me-2"></i>Banh Cute
+                        <i class="fas fa-shopping-cart me-2"></i>Shop Lưu Niệm Banh Cute
                     </h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường ABC, Quận XYZ</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lưu Niệm, TP.HCM</p>
                     <p><i class="fas fa-phone-alt me-2"></i>0123.456.789</p>
                     <p><i class="fas fa-envelope me-2"></i>contact@banhcute.com</p>
                 </div>

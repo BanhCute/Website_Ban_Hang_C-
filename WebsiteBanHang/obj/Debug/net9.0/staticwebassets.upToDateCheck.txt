@@ -62,6 +62,7 @@ C:\Users\ADMIN\source\repos\WebsiteBanHang\WebsiteBanHang\wwwroot\lib\bootstrap\
 C:\Users\ADMIN\source\repos\WebsiteBanHang\WebsiteBanHang\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\about.jpg
 wwwroot\images\gift-box.jpeg
 wwwroot\images\home-img.png
 wwwroot\images\products\3a364715-270b-4653-8821-98c96ab798cf.jpeg

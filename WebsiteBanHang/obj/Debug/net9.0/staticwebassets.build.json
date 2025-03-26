@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PvDQ5PXPm4nz6O/PfhrtF5/Gakw1515FDySQGDPtBd4=",
+  "Hash": "dnoztkR5Hh52ZURE3E+gHW/g/HmMKZcAlMbRqX/OlPs=",
   "Source": "WebsiteBanHang",
   "BasePath": "_content/WebsiteBanHang",
   "Mode": "Default",
@@ -4068,6 +4068,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\about.jpg",
+      "SourceId": "WebsiteBanHang",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\",
+      "BasePath": "_content/WebsiteBanHang",
+      "RelativePath": "images/about#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "htagsn76cb",
+      "Integrity": "xeJkUuWutLRuqLe5P9j8v2mNgpyOV+gg5xnPi++bPXk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\about.jpg"
     },
     {
       "Identity": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\gift-box.jpeg",
@@ -14781,6 +14802,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-1HkjQSVuV0/ji/X/lGeDTHeagBS0BwopMrHDQuwqgtU="
+        }
+      ]
+    },
+    {
+      "Route": "images/about.htagsn76cb.jpg",
+      "AssetFile": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\about.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "139917"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xeJkUuWutLRuqLe5P9j8v2mNgpyOV+gg5xnPi++bPXk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Mar 2025 09:37:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "htagsn76cb"
+        },
+        {
+          "Name": "label",
+          "Value": "images/about.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xeJkUuWutLRuqLe5P9j8v2mNgpyOV+gg5xnPi++bPXk="
+        }
+      ]
+    },
+    {
+      "Route": "images/about.jpg",
+      "AssetFile": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\about.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "139917"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xeJkUuWutLRuqLe5P9j8v2mNgpyOV+gg5xnPi++bPXk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Mar 2025 09:37:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xeJkUuWutLRuqLe5P9j8v2mNgpyOV+gg5xnPi++bPXk="
         }
       ]
     },

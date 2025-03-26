@@ -1,0 +1,23 @@
+# Build
+bin/
+obj/
+*.dll
+*.exe
+
+# Visual Studio
+.vs/
+.vscode/
+*.suo
+*.user
+*.cache
+
+# Backup
+*.bak
+*.old
+
+# Logs
+*.log
+
+# Environment
+appsettings*.json
+.env

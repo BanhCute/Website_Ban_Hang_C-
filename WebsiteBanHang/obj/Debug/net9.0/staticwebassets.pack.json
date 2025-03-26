@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\about.jpg",
+      "PackagePath": "staticwebassets\\images\\about.jpg"
+    },
+    {
       "Id": "C:\\Users\\ADMIN\\source\\repos\\WebsiteBanHang\\WebsiteBanHang\\wwwroot\\images\\gift-box.jpeg",
       "PackagePath": "staticwebassets\\images\\gift-box.jpeg"
     },
