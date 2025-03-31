@@ -31,7 +31,7 @@ namespace WebsiteBanHang.Controllers
             string searchString, 
             int? category, 
             int page = 1, 
-            int pageSize = 2)
+            int pageSize = 3)
         {
             // Lấy danh sách categories để hiển thị dropdown
             var categories = await _context.Categories.ToListAsync();
