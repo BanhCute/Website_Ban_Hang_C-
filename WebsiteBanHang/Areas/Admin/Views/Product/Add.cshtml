@@ -1,4 +1,4 @@
-﻿@model WebsiteBanHang.Models.Product
+﻿@model Product
 @using Microsoft.AspNetCore.Mvc.Rendering
 
 <div class="container mt-4">
@@ -7,6 +7,7 @@
     @if (!ViewData.ModelState.IsValid)
     {
         <div class="alert alert-danger">
+            <h4>Lỗi validation:</h4>
             <ul>
                 @foreach (var modelState in ViewData.ModelState.Values)
                 {
@@ -19,45 +20,65 @@
         </div>
     }
 
+    <!-- Thêm debug info -->
+    @if (Context.Request.Method == "POST")
+    {
+        <div class="alert alert-info">
+            <h4>Debug Info:</h4>
+            <p>CategoryId: @Model.CategoryId</p>
+            <p>Name: @Model.Name</p>
+            <p>Price: @Model.Price</p>
+            <p>Quantity: @Model.Quantity</p>
+        </div>
+    }
+
     <form asp-area="Admin" asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group mb-3">
-                    <label asp-for="Name" class="form-label">Tên sản phẩm</label>
-                    <input asp-for="Name" class="form-control" />
+                    <label asp-for="Name" class="control-label">Tên sản phẩm</label>
+                    <input asp-for="Name" class="form-control" required />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="Price" class="form-label">Giá</label>
-                    <input asp-for="Price" class="form-control" />
+                    <label asp-for="Price" class="control-label">Giá</label>
+                    <input asp-for="Price" class="form-control" type="number" min="0" required />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="Description" class="form-label">Mô tả</label>
-                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <label asp-for="Quantity" class="control-label">Số lượng</label>
+                    <input asp-for="Quantity" class="form-control" type="number" min="0" required />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="CategoryId" class="form-label">Danh mục</label>
-                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+                    <label asp-for="CategoryId" class="control-label">Danh mục</label>
+                    <select asp-for="CategoryId" class="form-control" required>
                         <option value="">-- Chọn danh mục --</option>
+                        @foreach (var item in (SelectList)ViewBag.Categories)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
                     </select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="control-label">Mô tả</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="form-group mb-3">
-                    <label class="form-label">Chọn ảnh</label>
-                    <input type="file" name="imageFiles" multiple class="form-control" accept="image/*" onchange="previewImages(event)" />
-                    <small class="form-text text-muted">Có thể chọn nhiều ảnh cùng lúc</small>
-                </div>
-
-                <div id="imagePreviewContainer" class="mt-3">
-                    <!-- Ảnh xem trước sẽ được hiển thị ở đây -->
+                    <label for="imageFile" class="control-label">Ảnh sản phẩm</label>
+                    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*" onchange="previewMainImage(this);" />
+                    <div class="mt-2">
+                        <img id="mainImagePreview" src="#" alt="Ảnh xem trước" style="max-width: 200px; display: none;" class="img-thumbnail" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,6 +140,31 @@
         max-height: 80vh;
         object-fit: contain;
     }
+
+    #additionalImagesPreview img {
+        margin: 5px;
+    }
+
+    .img-thumbnail {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .remove-image {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: red;
+        color: white;
+        border-radius: 50%;
+        padding: 5px 8px;
+        cursor: pointer;
+    }
 </style>
 
 <script>
@@ -166,4 +212,116 @@
             }
         }
     }
+
+    // Xem trước ảnh chính
+    function previewMainImage(input) {
+        var preview = document.getElementById('mainImagePreview');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    }
+
+    // Xem trước các ảnh phụ
+    function previewAdditionalImages(input) {
+        var preview = document.getElementById('additionalImagesPreview');
+        preview.innerHTML = ''; // Xóa các ảnh cũ
+
+        if (input.files) {
+            for (var i = 0; i < input.files.length; i++) {
+                var reader = new FileReader();
+                
+                reader.onload = (function(file) {
+                    return function(e) {
+                        var div = document.createElement('div');
+                        div.className = 'position-relative';
+                        
+                        var img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'img-thumbnail';
+                        img.style.width = '150px';
+                        img.style.height = '150px';
+                        img.style.objectFit = 'cover';
+                        
+                        div.appendChild(img);
+                        preview.appendChild(div);
+                    };
+                })(input.files[i]);
+                
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+    }
+
+    // Xóa ảnh khi click vào nút xóa
+    function removeImage(element) {
+        element.parentElement.remove();
+    }
+
+    $(document).ready(function() {
+        $('form').on('submit', function(e) {
+            if ($('#CategoryId').val() === '') {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: 'Vui lòng chọn danh mục sản phẩm',
+                    icon: 'error'
+                });
+                return false;
+            }
+        });
+
+        // Validate form trước khi submit
+        $('form').on('submit', function(e) {
+            if (!$(this).valid()) {
+                e.preventDefault();
+                console.log('Form validation failed');
+                // Log form data
+                console.log('CategoryId:', $('#CategoryId').val());
+                console.log('Name:', $('#Name').val());
+                console.log('Price:', $('#Price').val());
+                console.log('Quantity:', $('#Quantity').val());
+                return false;
+            }
+            console.log('Form is valid, submitting...');
+        });
+
+        // Hiển thị thông báo lỗi/thành công
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            Swal.fire({
+                title: 'Thành công!',
+                text: '@TempData["SuccessMessage"]',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            </text>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+            Swal.fire({
+                title: 'Lỗi!',
+                text: '@TempData["ErrorMessage"]',
+                icon: 'error'
+            });
+            </text>
+        }
+    });
 </script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

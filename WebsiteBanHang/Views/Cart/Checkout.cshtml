@@ -1,76 +1,144 @@
+@using WebsiteBanHang.Models.ViewModels
 @model CheckoutViewModel
 
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white">
-                    <h4 class="mb-0">
-                        <i class="fas fa-shipping-fast me-2"></i>Thông tin giao hàng
-                    </h4>
+    <h2>Thanh toán</h2>
+
+    <div id="checkoutSection">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Chi tiết đơn hàng -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Chi tiết đơn hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="@item.Product.ImageUrl" alt="@item.Product.Name"
+                                                     style="width: 50px; height: 50px; object-fit: cover;"
+                                                     class="me-2">
+                                                <span>@item.Product.Name</span>
+                                            </div>
+                                        </td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Price.ToString("N0")đ</td>
+                                        <td>@((item.Price * item.Quantity).ToString("N0"))đ</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Tổng cộng:</strong></td>
+                                    <td><strong>@Model.TotalAmount.ToString("N0")đ</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form asp-action="Checkout" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <input type="hidden" asp-for="Order.Id" />
+                <!-- Form thông tin giao hàng -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Thông tin giao hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="checkoutForm" method="post">
+                            <input type="hidden" name="OrderId" value="@Model.OrderId" />
+                            <input type="hidden" name="TotalAmount" value="@Model.TotalAmount" />
+                            
+                            <div class="form-group mb-3">
+                                <label for="ShippingAddress">Địa chỉ giao hàng</label>
+                                <input type="text" class="form-control" id="ShippingAddress" 
+                                       name="ShippingAddress" value="@Model.ShippingAddress" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="PhoneNumber">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="PhoneNumber" 
+                                       name="PhoneNumber" value="@Model.PhoneNumber" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="Note">Ghi chú</label>
+                                <textarea class="form-control" id="Note" name="Note">@Model.Note</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-check"></i> Xác nhận đặt hàng
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ShippingAddress" class="form-label">Địa chỉ giao hàng</label>
-                            <textarea asp-for="ShippingAddress" class="form-control" rows="3" required></textarea>
-                            <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+            <!-- Tóm tắt đơn hàng -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tóm tắt đơn hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tổng tiền hàng:</span>
+                            <strong>@Model.TotalAmount.ToString("N0")đ</strong>
                         </div>
-
-                        <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label">Số điện thoại</label>
-                            <input asp-for="PhoneNumber" class="form-control" required>
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Phí vận chuyển:</span>
+                            <strong>0đ</strong>
                         </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Note" class="form-label">Ghi chú</label>
-                            <textarea asp-for="Note" class="form-control" rows="3" 
-                                    placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn giao hàng chi tiết"></textarea>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tổng thanh toán:</span>
+                            <strong class="text-primary">@Model.TotalAmount.ToString("N0")đ</strong>
                         </div>
-
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-check me-2"></i>Xác nhận đặt hàng
-                        </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-white">
-                    <h4 class="mb-0">
-                        <i class="fas fa-shopping-cart me-2"></i>Đơn hàng của bạn
-                    </h4>
-                </div>
-                <div class="card-body">
-                    @if (Model?.Order?.OrderDetails != null)
-                    {
-                        @foreach (var item in Model.Order.OrderDetails)
-                        {
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <h6 class="mb-0">@(item.Product?.Name ?? "Sản phẩm")</h6>
-                                    <small class="text-muted">Số lượng: @item.Quantity</small>
-                                </div>
-                                <span class="text-primary fw-bold">@((item.Quantity * item.Price).ToString("N0"))đ</span>
-                            </div>
-                        }
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Tổng cộng:</h5>
-                            <h5 class="text-primary mb-0">@(Model.Order.TotalAmount.ToString("N0"))đ</h5>
+    <!-- Phần QR Payment -->
+    <div id="qrPaymentSection" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-4">Quét mã QR để thanh toán</h5>
+                        <div class="qr-container mb-4">
+                            <img id="qrCode" src="" alt="QR Code" class="img-fluid" style="max-width: 300px;" />
                         </div>
-                    }
-                    else
-                    {
-                        <p class="text-center text-muted">Giỏ hàng trống</p>
-                    }
+                        <p class="text-muted mb-3">Vui lòng quét mã QR bằng ứng dụng ngân hàng để thanh toán</p>
+                        <p class="text-primary fw-bold mb-4">Tổng tiền: <span id="totalAmount"></span></p>
+                        
+                        <div class="verification-section">
+                            <div class="form-group mb-3">
+                                <label for="verificationCode">Nhập mã xác nhận thanh toán:</label>
+                                <input type="text" id="verificationCode" class="form-control text-center" 
+                                       maxlength="6" style="max-width: 200px; margin: 10px auto;" 
+                                       placeholder="Nhập mã 6 số"/>
+                                <input type="hidden" id="currentOrderId" value="" />
+                            </div>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button id="verifyPaymentBtn" class="btn btn-success">
+                                    <i class="fas fa-check"></i> Xác nhận thanh toán
+                                </button>
+                                <button id="cancelOrderBtn" class="btn btn-danger">
+                                    <i class="fas fa-times"></i> Hủy đơn hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,34 +146,188 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        $(document).ready(function() {
-            $('form').on('submit', function(e) {
-                console.log('Form submitted');
-                console.log('Form data:', $(this).serialize());
-            });
+<script>
+$(document).ready(function() {
+    let orderTimeout;
+    let cancelTimeout;
+    
+    // Hàm hủy đơn hàng
+    function cancelOrder(orderId, showMessage = true) {
+        $.ajax({
+            url: '@Url.Action("CancelOrder", "Cart")',
+            type: 'POST',
+            data: { orderId: orderId },
+            success: function(response) {
+                if (response.success) {
+                    // Xóa timeout nếu có
+                    if (orderTimeout) {
+                        clearTimeout(orderTimeout);
+                    }
+                    
+                    if (showMessage) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đã hủy đơn hàng',
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            // Chuyển hướng về trang sản phẩm
+                            window.location.href = '@Url.Action("Index", "Product")';
+                        });
+                    } else {
+                        // Chuyển hướng về trang sản phẩm
+                        window.location.href = '@Url.Action("Index", "Product")';
+                    }
+                } else {
+                    if (showMessage) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: response.message
+                        });
+                    }
+                }
+            },
+            error: function() {
+                if (showMessage) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Có lỗi xảy ra khi hủy đơn hàng'
+                    });
+                }
+            }
         });
-    </script>
-}
+    }
 
-<style>
-    .card {
-        border: none;
-        border-radius: 10px;
-    }
-    
-    .card-header {
-        border-bottom: 1px solid #eee;
-        padding: 1rem;
-    }
-    
-    .form-control:focus {
-        border-color: #80bdff;
-        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-    }
-    
-    .btn-primary {
-        padding: 0.5rem 2rem;
-    }
-</style> 
+    // Xử lý khi người dùng rời trang
+    $(window).on('beforeunload', function() {
+        const orderId = $('#currentOrderId').val();
+        if (orderId) {
+            cancelOrder(orderId, false);
+        }
+    });
+
+    // Xử lý nút hủy đơn hàng
+    $('#cancelOrderBtn').on('click', function() {
+        const orderId = $('#currentOrderId').val();
+        if (orderId) {
+            Swal.fire({
+                title: 'Xác nhận hủy đơn hàng?',
+                text: "Bạn có chắc muốn hủy đơn hàng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Có, hủy đơn hàng',
+                cancelButtonText: 'Không, giữ lại'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    cancelOrder(orderId);
+                }
+            });
+        }
+    });
+
+    $('#checkoutForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = $(this).serialize();
+        
+        $.ajax({
+            url: '@Url.Action("Checkout", "Cart")',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    $('#qrCode').attr('src', response.qrImageUrl);
+                    $('#totalAmount').text(response.totalAmount);
+                    $('#currentOrderId').val(response.orderId);
+                    
+                    $('#checkoutSection').hide();
+                    $('#qrPaymentSection').show();
+
+                    // Đặt timeout 15 phút cho đơn hàng
+                    orderTimeout = setTimeout(function() {
+                        const orderId = $('#currentOrderId').val();
+                        if (orderId) {
+                            cancelOrder(orderId);
+                        }
+                    }, 15 * 60 * 1000); // 15 phút
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: response.message
+                    });
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Có lỗi xảy ra khi xử lý đơn hàng'
+                });
+            }
+        });
+    });
+
+    // Khởi tạo timeout
+    cancelTimeout = setTimeout(function() {
+        cancelOrder(@Model.OrderId);
+    }, 5 * 60 * 1000); // 5 phút
+
+    // Xử lý sự kiện click nút xác nhận thanh toán
+    $('#verifyPaymentBtn').click(function() {
+        const code = $('#verificationCode').val();
+        const orderId = $('#currentOrderId').val();
+        
+        if (!code) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Vui lòng nhập mã xác nhận!'
+            });
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("VerifyPayment", "Cart")',
+            type: 'POST',
+            data: {
+                orderId: orderId,
+                verificationCode: code
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Clear tất cả các timeout
+                    if (cancelTimeout) {
+                        clearTimeout(cancelTimeout);
+                        cancelTimeout = null;
+                    }
+                    if (orderTimeout) {
+                        clearTimeout(orderTimeout);
+                        orderTimeout = null;
+                    }
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Thanh toán thành công!'
+                    }).then(() => {
+                        window.location.href = response.redirectUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: response.message
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+} 

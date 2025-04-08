@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 
@@ -23,8 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Thêm các dịch vụ Identity
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
-    options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -98,8 +99,16 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
+// Nếu cần, thêm cấu hình cho thư mục uploads
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.WebRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
+
 app.UseSession();
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -116,6 +125,12 @@ app.MapControllerRoute(
     name: "orderConfirmation",
     pattern: "Cart/OrderConfirmation/{orderId?}",
     defaults: new { controller = "Cart", action = "OrderConfirmation" }
+);
+
+app.MapControllerRoute(
+    name: "orderCompleted",
+    pattern: "Cart/OrderCompleted/{id}",
+    defaults: new { controller = "Cart", action = "OrderCompleted" }
 );
 
 app.MapRazorPages();

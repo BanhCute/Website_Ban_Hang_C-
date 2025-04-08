@@ -1,0 +1,104 @@
+@model IEnumerable<UserViewModel>
+
+<div class="container-fluid px-4">
+    <h2 class="mt-4">Quản lý người dùng</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-users me-1"></i>
+            Danh sách người dùng
+        </div>
+        <div class="card-body">
+            <table id="usersTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tên đăng nhập</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Vai trò</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@(user.PhoneNumber ?? "Chưa cập nhật")</td>
+                            <td>@string.Join(", ", user.Roles)</td>
+                            <td>
+                                @if (!user.Roles.Contains(SD.Role_Admin))
+                                {
+                                    <button class="btn btn-danger btn-sm delete-user" data-id="@user.Id">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
+                }
+            });
+
+            $('.delete-user').click(function() {
+                var userId = $(this).data('id');
+                var row = $(this).closest('tr');
+
+                Swal.fire({
+                    title: 'Xác nhận xóa?',
+                    text: "Bạn có chắc muốn xóa người dùng này?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("Delete", "User")',
+                            type: 'POST',
+                            data: { id: userId },
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Thành công!',
+                                        response.message,
+                                        'success'
+                                    ).then(() => {
+                                        row.remove();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Lỗi!',
+                                        response.message,
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    'Có lỗi xảy ra khi xóa người dùng',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+} 

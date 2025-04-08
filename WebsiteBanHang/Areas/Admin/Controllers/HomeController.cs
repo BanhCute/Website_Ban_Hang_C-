@@ -5,6 +5,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using WebsiteBanHang.Data;
 using WebsiteBanHang.Models;
+using Microsoft.AspNetCore.Identity;
+using WebsiteBanHang.Enums;
+using WebsiteBanHang.Models.ViewModels;
 
 namespace WebsiteBanHang.Areas.Admin.Controllers
 {
@@ -13,45 +16,71 @@ namespace WebsiteBanHang.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            // Đếm số lượng sản phẩm
-            ViewBag.ProductCount = await _context.Products.CountAsync();
+            var viewModel = new DashboardViewModel
+            {
+                TotalProducts = await _context.Products.CountAsync(),
+                TotalCategories = await _context.Categories.CountAsync(),
+                TotalOrders = await _context.Orders.CountAsync(),
+                TotalUsers = await _userManager.Users.CountAsync(),
+                
+                RecentProducts = await _context.Products
+                    .Include(p => p.Category)
+                    .OrderByDescending(p => p.Id)
+                    .Take(5)
+                    .ToListAsync(),
+                    
+                CategoryStats = await _context.Categories
+                    .Select(c => new CategoryStat 
+                    { 
+                        CategoryName = c.Name,
+                        ProductCount = c.Products.Count 
+                    })
+                    .ToListAsync(),
+                    
+                // Thêm dữ liệu mới
+                PendingOrders = await _context.Orders
+                    .CountAsync(o => o.Status == (int)OrderStatus.Pending),
+                ConfirmedOrders = await _context.Orders
+                    .CountAsync(o => o.Status == (int)OrderStatus.Paid),
+                CancelledOrders = await _context.Orders
+                    .CountAsync(o => o.Status == (int)OrderStatus.Cancelled),
+                    
+                RevenueData = await _context.Orders
+                    .Where(o => o.Status == (int)OrderStatus.Paid)
+                    .Where(o => o.OrderDate >= DateTime.Now.AddDays(-7))
+                    .GroupBy(o => o.OrderDate.Date)
+                    .Select(g => new RevenueData
+                    {
+                        Date = g.Key,
+                        Amount = g.Sum(o => o.TotalAmount)
+                    })
+                    .OrderBy(x => x.Date)
+                    .ToListAsync(),
+                    
+                TopProducts = await _context.OrderDetails
+                    .Where(od => od.Order.Status == (int)OrderStatus.Paid)
+                    .GroupBy(od => od.Product)
+                    .Select(g => new TopProduct
+                    {
+                        Name = g.Key.Name,
+                        SoldQuantity = g.Sum(od => od.Quantity)
+                    })
+                    .OrderByDescending(x => x.SoldQuantity)
+                    .Take(5)
+                    .ToListAsync()
+            };
             
-            // Đếm số lượng danh mục
-            ViewBag.CategoryCount = await _context.Categories.CountAsync();
-            
-            // Đếm số lượng đơn hàng (nếu có bảng Order)
-            // ViewBag.OrderCount = await _context.Orders.CountAsync();
-            // Tạm thời để 0 nếu chưa có bảng Order
-            ViewBag.OrderCount = 0;
-            
-            // Đếm số lượng người dùng
-            ViewBag.UserCount = await _context.Users.CountAsync();
-
-            // Lấy 5 sản phẩm mới nhất
-            var latestProducts = await _context.Products
-                .Include(p => p.Category)
-                .OrderByDescending(p => p.Id)
-                .Take(5)
-                .ToListAsync();
-            ViewBag.LatestProducts = latestProducts;
-
-            // Lấy thông tin danh mục cho biểu đồ
-            var categories = await _context.Categories
-                .Select(c => new { c.Name, ProductCount = c.Products.Count })
-                .ToListAsync();
-            
-            ViewBag.CategoryLabels = string.Join(",", categories.Select(c => $"'{c.Name}'"));
-            ViewBag.CategoryData = string.Join(",", categories.Select(c => c.ProductCount));
-
-            return View();
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

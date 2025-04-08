@@ -41,6 +41,15 @@
                     <div class="card-body">
                         <h5 class="card-title product-title">@item.Name</h5>
                         <p class="card-text text-primary fw-bold mb-2">@item.Price.ToString("N0") VNĐ</p>
+                        
+                        <!-- Thêm hiển thị số lượng -->
+                        <p class="card-text mb-2">
+                            <span class="stock-badge @(item.Quantity > 0 ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger")">
+                                <i class="fas @(item.Quantity > 0 ? "fa-check-circle" : "fa-times-circle") me-1"></i>
+                                @(item.Quantity > 0 ? $"Còn {item.Quantity} sản phẩm" : "Hết hàng")
+                            </span>
+                        </p>
+                        
                         <p class="card-text description-text mb-2">@item.Description</p>
                         <p class="card-text">
                             <small class="text-muted">
@@ -173,5 +182,21 @@
             font-size: 0.8rem;
             height: 3.6rem;
         }
+    }
+
+    .stock-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .bg-success-subtle {
+        background-color: #d1e7dd;
+    }
+
+    .bg-danger-subtle {
+        background-color: #f8d7da;
     }
 </style>

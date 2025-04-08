@@ -19,57 +19,187 @@
         :root {
             --primary-color: #1e3799;
             --secondary-color: #4a69bd;
+            --accent-color: #00d2d3;
+            --light-bg: #f6f9fc;
         }
         
-        .navbar { 
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; 
+        /* Header Styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            padding: 1rem 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
-        .nav-link:hover { 
-            transform: translateY(-2px); 
-            transition: all 0.3s;
-            color: #fff !important;
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
         }
-        .navbar-brand:hover { 
-            transform: scale(1.05); 
-            transition: all 0.3s;
-            color: #fff !important;
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
         }
-        .footer { 
-            background: linear-gradient(135deg, #f8f9fa, #e6f3ff) !important; 
+
+        .navbar-brand:hover::after {
+            width: 100%;
         }
-        .social-icon { 
-            font-size: 1.5rem; 
-            margin: 0 10px; 
-            color: var(--primary-color); 
-        }
-        .social-icon:hover { 
-            color: var(--secondary-color); 
-            transform: scale(1.2); 
-            transition: all 0.3s; 
-        }
-        .btn-primary {
-            background: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-        }
-        .btn-primary:hover {
-            background: var(--secondary-color) !important;
-            border-color: var(--secondary-color) !important;
-        }
-        .text-primary {
-            color: var(--primary-color) !important;
-        }
-        .dropdown-item:hover {
-            background-color: #e6f3ff !important;
-        }
+
         .nav-link {
             position: relative;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 20px;
+            transition: all 0.3s ease;
         }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
         #cart-count-badge {
-            font-size: 0.75rem;
-            padding: 0.25em 0.4em;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7rem;
+            padding: 0.25em 0.6em;
+            background: var(--accent-color);
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #f8f9fa, #e6f3ff) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
+        }
+
+        .footer h5 {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .footer-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-info-item:hover {
+            transform: translateX(10px);
+        }
+
+        .footer-info-item i {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
             color: white;
-            background-color: red;
             border-radius: 50%;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer ul li a {
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer ul li a:hover {
+            color: var(--primary-color) !important;
+            transform: translateX(10px);
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            color: white !important;
+            border-radius: 50%;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Adjustments */
+        @@media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .footer {
+                text-align: center;
+            }
+            
+            .footer h5::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-info-item {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -91,28 +221,17 @@
                                 <i class="fas fa-list-ul me-1"></i>Sản phẩm
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-gift me-1"></i>Khuyến mãi
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">
-                                <i class="fas fa-list-ul me-1"></i>Giới thiệu
+                                <i  class=" fas fa-solid fa-circle-info"></i>Giới thiệu
                             </a>
                         </li>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                           
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="fas fa-star me-1"></i>Đánh giá
-                                </a>
-                            </li>
-                        }
+                      
                         <li class="nav-item">
                             <a href="/Cart" class="nav-link position-relative">
-                                <i class="fas fa-shopping-cart"></i>
+                            
+                                <i class="fas fa-shopping-cart"></i>Giỏ hàng
                                 <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
                                     <span id="cart-count">
                                         @await Html.PartialAsync("_CartCountPartial")
@@ -137,36 +256,71 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-md-4">
-                    <h5 class="fw-bold mb-3 text-primary">
+                    <h5 class="fw-bold">
                         <i class="fas fa-shopping-cart me-2"></i>Shop Lưu Niệm Banh Cute
                     </h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lưu Niệm, TP.HCM</p>
-                    <p><i class="fas fa-phone-alt me-2"></i>0123.456.789</p>
-                    <p><i class="fas fa-envelope me-2"></i>contact@banhcute.com</p>
+                    <div class="footer-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Đường Lưu Niệm, TP.HCM</span>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>0123.456.789</span>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>contact@banhcute.com</span>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <h5 class="fw-bold mb-3">Thông tin</h5>
+                    <h5 class="fw-bold">Thông tin hữu ích</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-muted">
-                            <i class="fas fa-angle-right me-2"></i>Về chúng tôi
-                        </a></li>
-                        <li><a href="#" class="text-decoration-none text-muted">
-                            <i class="fas fa-angle-right me-2"></i>Chính sách đổi trả
-                        </a></li>
-                        <li><a href="#" class="text-decoration-none text-muted">
-                            <i class="fas fa-angle-right me-2"></i>Điều khoản dịch vụ
-                        </a></li>
+                        <li>
+                            <a href="#" class="text-decoration-none text-muted">
+                                <i class="fas fa-angle-right me-2"></i>Về chúng tôi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-decoration-none text-muted">
+                                <i class="fas fa-angle-right me-2"></i>Chính sách đổi trả
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-decoration-none text-muted">
+                                <i class="fas fa-angle-right me-2"></i>Điều khoản dịch vụ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-decoration-none text-muted">
+                                <i class="fas fa-angle-right me-2"></i>Hướng dẫn mua hàng
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h5 class="fw-bold mb-3">Theo dõi chúng tôi</h5>
-                    <div class="mb-3">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    <h5 class="fw-bold">Theo dõi chúng tôi</h5>
+                    <div class="mb-4">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
                     </div>
-                    <p class="mb-0">&copy; @DateTime.Now.Year - Banh Cute</p>
+                    <div class="newsletter">
+                        <h5 class="fw-bold">Đăng ký nhận tin</h5>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Email của bạn">
+                            <button class="btn btn-primary">Đăng ký</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="mb-0">&copy; @DateTime.Now.Year - Banh Cute - Tất cả quyền được bảo lưu</p>
             </div>
         </div>
     </footer>
@@ -220,6 +374,11 @@
             $(document).ready(function() {
                 updateCartCount();
             });
+
+            // Thêm hàm toàn cục để các trang khác có thể gọi
+            window.updateCartCountGlobal = function() {
+                updateCartCount();
+            };
         </script>
     }
     @await RenderSectionAsync("Scripts", required: false)

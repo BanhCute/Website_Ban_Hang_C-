@@ -2,9 +2,14 @@ using WebsiteBanHang.Models;
 
 public class Order
 {
+    public Order()
+    {
+        OrderDetails = new List<OrderDetail>();
+    }
+
     public int Id { get; set; }
     public string UserId { get; set; }
-    public ApplicationUser User { get; set; }
+    public virtual ApplicationUser User { get; set; }
     public DateTime OrderDate { get; set; }
     public int Status { get; set; } = 1; // Mặc định là Pending
     public string StatusString
@@ -23,8 +28,8 @@ public class Order
         }
     }
     public decimal TotalAmount { get; set; }
-    public string ShippingAddress { get; set; }
-    public string PhoneNumber { get; set; }
-    public string Note { get; set; }
-    public ICollection<OrderDetail> OrderDetails { get; set; }
+    public string ShippingAddress { get; set; } = ""; // Giá trị mặc định
+    public string PhoneNumber { get; set; } = "";     // Giá trị mặc định
+    public string Note { get; set; } = "";            // Giá trị mặc định
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 }

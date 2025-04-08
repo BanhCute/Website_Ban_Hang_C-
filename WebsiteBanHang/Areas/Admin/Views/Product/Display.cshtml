@@ -10,6 +10,24 @@
                     <h4 class="card-title mb-4">@Model.Name</h4>
                     <p class="card-text"><strong>Giá:</strong> @Model.Price.ToString("N0") VNĐ</p>
                     <p class="card-text"><strong>Danh mục:</strong> @Model.Category?.Name</p>
+                    
+                    <!-- Thêm hiển thị số lượng -->
+                    <p class="card-text">
+                        <strong>Số lượng tồn kho:</strong> 
+                        <span class="@(Model.Quantity > 0 ? "text-success" : "text-danger")">
+                            @if (Model.Quantity > 0)
+                            {
+                                <i class="fas fa-check-circle me-1"></i>
+                                @Model.Quantity.ToString() <text>sản phẩm</text>
+                            }
+                            else
+                            {
+                                <i class="fas fa-times-circle me-1"></i>
+                                <text>Hết hàng</text>
+                            }
+                        </span>
+                    </p>
+                    
                     <p class="card-text">
                         <strong>Mô tả:</strong><br />
                         @Model.Description
